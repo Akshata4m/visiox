@@ -1,10 +1,15 @@
 <?php
-$result = array("success" => $_FILES["file"]["name"]);
-$file_path = basename( $_FILES['file']['name']);
-if(move_uploaded_file($_FILES['file']['tmp_name'], $file_path)) {
-    $result = array("success" => "File successfully uploaded");
-} else{
-    $result = array("success" => "error uploading file");
+error_reporting(E_ALL);
+if(isset($_POST['ImageName'])){
+$imgname = $_POST['ImageName'];
+$imsrc = str_replace(' ','+',$_POST['base64']);
+$imsrc = base64_decode($imsrc);
+$fp = fopen($imgname, 'w');
+fwrite($fp, $imsrc);
+if(fclose($fp)){
+ echo "Image uploaded";
+}else{
+ echo "Error uploading image";
 }
-echo json_encode($result, JSON_PRETTY_PRINT);
+}
 ?>
